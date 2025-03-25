@@ -1,0 +1,15 @@
+chess-game/
+├── css/
+│   └── style.css
+├── js/
+│   ├── board.js
+│   ├── pieces.js
+│   └── game.js
+├── php/
+│   └── save_game.php
+├── images/
+│   └── pieces/
+│       ├── white_pawn.png
+│       ├── white_rook.png
+│       └── ... (other piece images)
+└── index.html 
