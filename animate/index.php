@@ -116,7 +116,7 @@ $posts = $post->getAll(false); // Get only public posts
                     </div>
                 </div>
 
-                <?php if (empty($posts)): ?>
+                
             <div class="blog-posts">
                 <div class="posts-container">
                     <?php
@@ -124,7 +124,8 @@ $posts = $post->getAll(false); // Get only public posts
                     $post = new Post();
                     $posts = $post->read(); // Get only public posts
                     
-                    if (empty($posts)): ?>
+                        if (empty($posts)):
+ ?>
                         <div class="no-posts">
                             <p>No posts available at the moment.</p>
                         </div>
