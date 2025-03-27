@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'blog_db';
+$dbname = 'animate';
 $username = 'root';
 $password = '';
 
