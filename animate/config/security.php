@@ -4,15 +4,20 @@
 // Set secure session parameters
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 1);
-ini_set('session.cookie_samesite', 'Strict');
+ini_set('session.cookie_secure', 0); // Disabled for local testing (should be 1 in production)
+ini_set('session.cookie_samesite', 'Lax'); // Less strict for local testing
 
 // Set secure headers
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
+
+// Relaxed CSP for development
+header('Content-Security-Policy: default-src \'self\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' https: data:; style-src \'self\' \'unsafe-inline\' https: data:; img-src \'self\' data: https:; font-src \'self\' data: https:;');
+
 header('Content-Security-Policy: default-src \'self\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' https://cdn.jsdelivr.net; style-src \'self\' \'unsafe-inline\' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src \'self\' data: https:; font-src \'self\' data: https://cdnjs.cloudflare.com;');
+
 
 // Security functions
 function sanitize_input($data) {
@@ -36,8 +41,13 @@ function verify_csrf_token($token) {
     return true;
 }
 
-// Rate limiting
+// Rate limiting (DISABLED FOR TESTING)
 function check_rate_limit($ip, $limit = 100, $period = 3600) {
+    // Always return true to disable rate limiting
+    return true;
+    
+    // Original implementation (commented out)
+    /*
     $file = sys_get_temp_dir() . '/rate_limit_' . md5($ip);
     $current = file_exists($file) ? (int)file_get_contents($file) : 0;
     
@@ -46,6 +56,7 @@ function check_rate_limit($ip, $limit = 100, $period = 3600) {
     }
     
     file_put_contents($file, $current + 1);
+    */
     return true;
 }
 
