@@ -116,6 +116,7 @@ $posts = $post->getAll(false); // Get only public posts
                     </div>
                 </div>
 
+
                 <div class="blog-posts">
                     <div class="posts-container">
                         <?php
@@ -133,6 +134,27 @@ $posts = $post->getAll(false); // Get only public posts
                                         <h2><?php echo htmlspecialchars($p['title']); ?></h2>
                                         <p><?php echo htmlspecialchars(substr($p['content'], 0, 200)) . '...'; ?></p>
                                         <a href="view_post.php?id=<?php echo $p['id']; ?>" class="read-more" target="_blank" rel="noopener noreferrer">Read More</a>
+
+                
+            <div class="blog-posts">
+                <div class="posts-container">
+                    <?php
+                    require_once 'post.php';
+                    $post = new Post();
+                    $posts = $post->read(); // Get only public posts
+                    
+                        if (empty($posts)):
+ ?>
+                        <div class="no-posts">
+                            <p>No posts available at the moment.</p>
+                        </div>
+                    <?php else:
+                        foreach ($posts as $p): ?>
+                            <article class="post">
+                                <div class="post-content">
+                                    <div class="post-meta">
+                                        <span class="date"><?php echo date('F j, Y g:i A T', strtotime($p['created_at'])); ?></span>
+
                                     </div>
                                 </article>
                             <?php endforeach;
