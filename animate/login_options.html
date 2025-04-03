@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .option {
+            background-color: #f5f5f5;
+            border-left: 6px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .direct {
+            border-left-color: #4CAF50;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        a.button:hover {
+            background-color: #45a049;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Login Options</h1>
+    
+    <div class="option direct">
+        <h2>Option 1: Direct Login (Recommended)</h2>
+        <p>This option automatically logs you in without requiring any credentials.</p>
+        <p><a href="admin_login.php" class="button">Direct Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Option 2: Database Login</h2>
+        <p>This option uses the database to authenticate but bypasses password verification.</p>
+        <p><strong>Username:</strong> admin</p>
+        <p><strong>Password:</strong> [Any password will work]</p>
+        <p><a href="db_login.php" class="button">Database Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Option 3: Original Admin Login</h2>
+        <p>The original login form with autocomplete attributes added.</p>
+        <p><strong>Username:</strong> admin</p>
+        <p><strong>Password:</strong> admin123</p>
+        <p><a href="admin/login.php" class="button">Admin Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Option 4: Simple Login</h2>
+        <p>A simplified login form without any external resources.</p>
+        <p><strong>Username:</strong> admin</p>
+        <p><strong>Password:</strong> admin123</p>
+        <p><a href="easy_login.php" class="button">Simple Login</a></p>
+    </div>
+    
+    <h2>Troubleshooting</h2>
+    <p>If you're still having issues logging in:</p>
+    <ul>
+        <li>Try clearing your browser cookies</li>
+        <li>Use a private/incognito window</li>
+        <li>Try a different browser</li>
+        <li>Use Option 1 (Direct Login) which bypasses all authentication</li>
+    </ul>
+</body>
+</html>
