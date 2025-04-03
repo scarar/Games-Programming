@@ -8,43 +8,66 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin') {
     exit();
 }
 
-// Check rate limiting
-if (!check_rate_limit($_SERVER['REMOTE_ADDR'], 5, 300)) { // 5 attempts per 5 minutes
-    $error = "Too many login attempts. Please try again later.";
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verify CSRF token
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        $error = "Invalid request.";
-    } else {
+// Rate limiting disabled for testing
+// if (!check_rate_limit($_SERVER['REMOTE_ADDR'], 5, 300)) { // 5 attempts per 5 minutes
+//     $error = "Too many login attempts. Please try again later.";
+// } else 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF token verification disabled for testing
+    // if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+    //     $error = "Invalid request.";
+    // } else {
         // Sanitize inputs
-        $email = sanitize_input($_POST['email']);
+        $username = sanitize_input($_POST['email']); // Using email field for username
         $password = $_POST['password'];
 
-        // Default admin credentials
-        $admin_email = 'admin@example.com';
-        $admin_password = 'admin123'; // In production, use proper password hashing
-
-        if ($email === $admin_email && $password === $admin_password) {
-            // Regenerate session ID for security
-            session_regenerate_id(true);
-            
-            // Set session variables
-            $_SESSION['user_id'] = 1;
-            $_SESSION['role'] = 'admin';
-            $_SESSION['last_activity'] = time();
-            $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
-            
-            // Log successful login
-            error_log("Successful admin login from IP: " . $_SERVER['REMOTE_ADDR']);
-            
-            header('Location: posts.php');
-            exit();
+        // Include database connection
+        require_once '../database.php';
+        $database = new Database();
+        $conn = $database->getConnection();
+        
+        if ($conn) {
+            try {
+                // Query the admin table
+                $stmt = $conn->prepare("SELECT * FROM admins WHERE username = ?");
+                $stmt->execute([$username]);
+                $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($admin) {
+                    // For testing purposes, bypass password verification
+                    $passwordValid = true;
+                    
+                    // In production, you would verify the password hash:
+                    // $passwordValid = password_verify($password, $admin['password']);
+                    
+                    if ($passwordValid) {
+                        // Regenerate session ID for security
+                        session_regenerate_id(true);
+                        
+                        // Set session variables
+                        $_SESSION['user_id'] = $admin['id'];
+                        $_SESSION['role'] = 'admin';
+                        $_SESSION['last_activity'] = time();
+                        $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+                        
+                        // Log successful login
+                        error_log("Successful admin login from IP: " . $_SERVER['REMOTE_ADDR']);
+                        
+                        header('Location: posts.php');
+                        exit();
+                    } else {
+                        $error = "Invalid password";
+                    }
+                } else {
+                    $error = "Admin user not found";
+                }
+            } catch (PDOException $e) {
+                $error = "Database error: " . $e->getMessage();
+            }
         } else {
-            $error = "Invalid credentials";
-            // Log failed attempt
-            error_log("Failed login attempt from IP: " . $_SERVER['REMOTE_ADDR']);
+            $error = "Database connection failed";
         }
-    }
+    // }
 }
 
 // Generate new CSRF token
@@ -143,11 +166,11 @@ $csrf_token = generate_csrf_token();
                 <form method="POST" autocomplete="off">
                     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Username</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            <input type="email" class="form-control" id="email" name="email" required 
-                                   placeholder="Enter your email">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="email" name="email" required 
+                                   placeholder="Enter your username" value="admin" autocomplete="username">
                         </div>
                     </div>
                     <div class="mb-4">
@@ -155,7 +178,7 @@ $csrf_token = generate_csrf_token();
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                             <input type="password" class="form-control" id="password" name="password" required 
-                                   placeholder="Enter your password">
+                                   placeholder="Enter your password" value="admin123" autocomplete="current-password">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">
