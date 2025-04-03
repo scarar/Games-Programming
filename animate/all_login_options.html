@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Login Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .option {
+            background-color: #f5f5f5;
+            border-left: 6px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .recommended {
+            border-left-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        a.button:hover {
+            background-color: #45a049;
+        }
+        .debug {
+            border-left-color: #ff9800;
+            background-color: #fff3e0;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Login Options</h1>
+    
+    <div class="option debug recommended">
+        <h2>Debug Login (RECOMMENDED)</h2>
+        <p>This option provides detailed debug information and sets session variables directly.</p>
+        <p><a href="debug_login.php" class="button">Debug Login</a></p>
+    </div>
+    
+    <div class="option recommended">
+        <h2>Force Login</h2>
+        <p>This option forces a login by destroying any existing session and creating a new one.</p>
+        <p><a href="force_login.php" class="button">Force Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Direct Login</h2>
+        <p>Simple direct login that sets session variables and redirects.</p>
+        <p><a href="admin_login.php" class="button">Direct Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Database Login</h2>
+        <p>Uses the database to authenticate but bypasses password verification.</p>
+        <p><strong>Username:</strong> admin</p>
+        <p><a href="db_login.php" class="button">Database Login</a></p>
+    </div>
+    
+    <div class="option">
+        <h2>Original Admin Login</h2>
+        <p>The original login form (may not work if there are session issues).</p>
+        <p><strong>Username:</strong> admin</p>
+        <p><a href="admin/login.php" class="button">Admin Login</a></p>
+    </div>
+    
+    <h2>Troubleshooting</h2>
+    <p>If you're still having issues logging in:</p>
+    <ul>
+        <li>Try the Debug Login option first - it provides detailed information</li>
+        <li>Clear your browser cookies</li>
+        <li>Use a private/incognito window</li>
+        <li>Try a different browser</li>
+        <li>Check if your browser is blocking cookies</li>
+    </ul>
+</body>
+</html>
