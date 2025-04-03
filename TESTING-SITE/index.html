@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate CMS Testing Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .option {
+            background-color: #fff;
+            border-left: 6px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .recommended {
+            border-left-color: #4CAF50;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        a.button:hover {
+            background-color: #45a049;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Animate CMS Testing Site</h1>
+        <p>This page provides various login options for testing the Animate CMS admin panel on a local network.</p>
+        
+        <div class="note">
+            <h3>Important Note</h3>
+            <p>These login methods bypass normal authentication for testing purposes. In a production environment, you should use proper authentication and security measures.</p>
+        </div>
+        
+        <h2>Login Options</h2>
+        
+        <div class="option recommended">
+            <h3>1. Local Login (RECOMMENDED)</h3>
+            <p>This uses modified security settings to allow cookies over HTTP.</p>
+            <p><a href="local_login.php" class="button">Local Login</a></p>
+        </div>
+        
+        <div class="option">
+            <h3>2. Debug Login</h3>
+            <p>This provides detailed debug information about the session.</p>
+            <p><a href="debug_login.php" class="button">Debug Login</a></p>
+        </div>
+        
+        <div class="option">
+            <h3>3. All Login Options</h3>
+            <p>This page lists all available login methods with links.</p>
+            <p><a href="all_login_options.html" class="button">All Login Options</a></p>
+        </div>
+        
+        <div class="option">
+            <h3>4. Force Login</h3>
+            <p>Forces a login by destroying any existing session and creating a new one.</p>
+            <p><a href="force_login.php" class="button">Force Login</a></p>
+        </div>
+        
+        <div class="option">
+            <h3>5. Direct Login</h3>
+            <p>Simple direct login that sets session variables and redirects.</p>
+            <p><a href="admin_login.php" class="button">Direct Login</a></p>
+        </div>
+        
+        <h2>Issue Fixed</h2>
+        <p>The main issue was that the session cookies were set to only work over HTTPS connections, but the site was being accessed over HTTP on a local network. The security settings have been modified to allow cookies over HTTP for local testing.</p>
+        
+        <h2>Usage Instructions</h2>
+        <ol>
+            <li>Start the PHP server in the animate directory:
+                <pre>cd /path/to/animate
+php -S 0.0.0.0:54211</pre>
+            </li>
+            <li>Access the login options from your local network:
+                <pre>http://[SERVER_IP]:54211/local_login.php</pre>
+            </li>
+            <li>After successful login, you will be redirected to the admin panel.</li>
+        </ol>
+    </div>
+</body>
+</html>
