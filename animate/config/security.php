@@ -4,8 +4,8 @@
 // Set secure session parameters
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 1);
-ini_set('session.cookie_samesite', 'Strict');
+ini_set('session.cookie_secure', 0); // Disabled for local testing (should be 1 in production)
+ini_set('session.cookie_samesite', 'Lax'); // Less strict for local testing
 
 // Set secure headers
 header('X-Frame-Options: DENY');
