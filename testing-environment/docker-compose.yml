@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  # PHP service with Apache
+  web:
+    image: php:8.0-apache
+    container_name: animate_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ../animate:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=animate_user
+      - MYSQL_PASSWORD=animate_password
+      - MYSQL_DATABASE=animate
+    networks:
+      - animate_network
+    command: >
+      bash -c "apt-get update && 
+      apt-get install -y libpq-dev libzip-dev zip unzip && 
+      docker-php-ext-install pdo pdo_mysql mysqli zip && 
+      a2enmod rewrite && 
+      service apache2 restart && 
+      apache2-foreground"
+
+  # MySQL service
+  db:
+    image: mysql:8.0
+    container_name: animate_db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=animate
+      - MYSQL_USER=animate_user
+      - MYSQL_PASSWORD=animate_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - animate_network
+
+  # phpMyAdmin service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: animate_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=root_password
+    depends_on:
+      - db
+    networks:
+      - animate_network
+
+networks:
+  animate_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
